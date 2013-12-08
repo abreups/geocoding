@@ -1,9 +1,9 @@
-Getting latitude and longitude for a list of places
+Getting latitude and longitude for a list of places.
 
 This code uses Google geocoding API to get the lattitude
 and the longitude of a list of places.
 
-I took the code presented at this site?
+I took the code presented at this site:
 
 http://www.aspsnippets.com/Articles/Google-Maps-API-V3-Get-Latitude-and-Longitude-of-a-location-from-Address-using-JavaScript.aspx
 
