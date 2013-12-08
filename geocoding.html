@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+    <title></title>
+</head>
+<body>
+	<!-- Loads jQuery -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+	<h2>Type the list of locations at the left text area, one location per line.</h2>
+	<h2>Results will appear on the right text area, one line for each click of the buttom.<h2>
+	<h3>Last item must have a new line at the end.</h3>
+    <textarea id="txtAddress" rows="20" cols="50"></textarea>
+    <input type="button" onclick="GetLocation()" value="Get Next Location" />
+    <textarea id="txtCoord" rows="20" cols="50"></textarea>
+
+	<div id="resp"></div>
+
+	<!-- Loads Google geocoding API -->
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+    <script type="text/javascript">
+        function GetLocation() {
+			var geocoder = new google.maps.Geocoder();
+            var addresses = document.getElementById("txtAddress").value; // picks everything in the text area
+			oneLine = /.+\n/; // regex to match any character 1 or more times until a new line
+			currItem = addresses.match(oneLine); // picks 1 line in the list of addresses
+			addresses = addresses.replace(oneLine, ""); // removes the line from the rest of the list
+			$('#txtAddress').val(addresses); // add the reduced list to the text area
+			if (currItem) {
+				geocoder.geocode({ 'address': currItem[0] }, function (results, status) {
+					if (status == google.maps.GeocoderStatus.OK) {
+						var latitude = results[0].geometry.location.lat();
+						var longitude = results[0].geometry.location.lng();
+						currText = $('#txtCoord').text();
+						// removes the end of line character before printing the result
+						newText = currText + currItem[0].replace(/\n/,"") + "," + latitude + "," + longitude + "\n";
+						$('#txtCoord').text(newText);
+						// $('#resp').html(newText);
+					} else {
+						alert("Request failed: " + currItem[0] + "\nCode: " + status)
+					}
+				});
+			};
+        };
+    </script>
+
+
+
+</body>
+</html>
+
